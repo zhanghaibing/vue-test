@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>vue-test</title>
+</head>
+<body>
+<div id="app">
+    <ol>
+        <template v-for="(item, index) of items">
+            <li>{{parent}} - {{index}} - {{item}}</li>
+            <li>The Defaults</li>
+        </template>
+    </ol>
+    <ul>
+        <li v-for="(item, key, index) in object">{{key}} : {{item}} -- {{index}}</li>
+    </ul>
+    <div>
+        <input v-model="newTodo" @keyup.enter="addTodo" placeholder="Add +" />
+        <ul>
+            <li is="todo-item" v-for="(todo, index) in todoList" :title="todo" @remove="todoList.splice(index, 1)"></li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript" src="vue.js"></script>
+<script type="text/javascript">
+    Vue.component('todo-item', {
+        template: '<li @click="$emit(\'remove\')">{{title}}</li>',
+        props: ['title']
+    });
+    let app = new Vue({
+        el: '#app',
+        data: {
+            parent: 'parent',
+            newTodo: '',
+            items: ['foo', 'bar'],
+            object: {
+                First: 'Jone',
+                Last: 'Doe',
+                Age: 30
+            },
+            todoList: ['todo-1', 'todo-2', 'todo-3']
+        },
+        methods: {
+            addTodo: function() {
+                this.todoList.push(this.newTodo);
+                this.newTodo = '';
+            }
+        }
+    });
+</script>
+</body>
+</html>
